@@ -1,0 +1,45 @@
+---
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: config.yml
+- include_tasks: plugins.yml
+
+- name: Ensure Logstash is started and enabled on boot.
+  become: yes
+  service: "name=logstash state=started enabled={{ logstash_enabled_on_boot }}"
+
+- name: Ensure certs directory exists
+  file:
+    dest: "/etc/logstash/certs"
+    state: directory
+    owner: root
+    group: logstash
+    mode: 0775
+
+- name: copy SSL cert
+  become: yes
+  copy:
+    dest: "{{ logstash_ssl_crt_location }}"
+    content: "{{ logstash_ssl_crt }}"
+
+- name: copy SSL key
+  become: yes
+  copy:
+    dest: "{{ logstash_ssl_key_location }}"
+    content: "{{ logstash_ssl_key }}"
+
+- name: copy SSL CA
+  become: yes
+  copy:
+    dest: "{{ logstash_ssl_ca_location }}"
+    content: "{{ logstash_ssl_ca }}"
+
+- name: Copy SearchGuard CA Cert
+  become: yes
+  copy:
+    content: "{{ elk_sg_ca_cert }}"
+    dest: "/etc/logstash/{{ elk_sg_ca_cert_location }}"
+    owner: root
+    group: logstash
+    mode: 0660

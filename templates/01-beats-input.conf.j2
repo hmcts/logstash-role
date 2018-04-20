@@ -1,0 +1,10 @@
+input {
+  beats {
+    port => {{ logstash_listen_port_beats }}
+    ssl => true
+    ssl_certificate_authorities => ["{{ logstash_ssl_ca_location }}"]
+    ssl_certificate => "{{ logstash_ssl_crt_location }}"
+    ssl_key => "{{ logstash_ssl_key_location }}"
+    ssl_verify_mode => "none"
+  }
+}

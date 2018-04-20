@@ -1,0 +1,12 @@
+---
+# logstash uses which to find java, but the rpm doesn't have a dependency on it
+- name: ensure which is installed
+  package:
+    name: which
+    state: present
+
+- name: Install Logstash
+  become: yes
+  package:
+    name: logstash-{{ logstash_pkg_version }}
+    state: present

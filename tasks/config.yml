@@ -1,0 +1,57 @@
+---
+- name: Configure IPV4
+  lineinfile:
+    dest: /etc/logstash/jvm.options
+    state: present
+    line: "-Djava.net.preferIPv4Stack=true"
+
+- name: Copy logstash main config file
+  become: yes
+  template:
+    src: "logstash.yml.j2"
+    dest: "/etc/logstash/logstash.yml"
+    owner: root
+    group: logstash
+    mode: 0644
+  notify: restart logstash
+
+- name: Ensure config directory exists
+  file:
+    dest: "/etc/logstash/conf.d/"
+    state: directory
+    owner: root
+    group: logstash
+    mode: 0775
+
+- name: Create Logstash configuration files.
+  become: yes
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/logstash/conf.d/{{ item }}"
+    owner: root
+    group: logstash
+    mode: 0644
+  with_items:
+    - 01-beats-input.conf
+    - 02-tcp-udp-input.conf
+    - 30-elasticsearch-output.conf
+  notify: restart logstash
+
+- name: Copy Logstash Filters
+  become: yes
+  copy:
+    src: "filters/{{ item }}"
+    dest: "/etc/logstash/conf.d/{{ item }}"
+    owner: root
+    group: logstash
+    mode: 0644
+  with_items:
+    - 10-password-filter.conf
+    - 19-audit-filter.conf
+    - 20-json-filter.conf
+    - 22-clamscan-logs-filter.conf
+    - 23-postgres-filter.conf
+    - 25-f5-filter.conf
+    - 26-undefined-team-filter.conf
+    - 28-syslog-filter.conf
+  notify: restart logstash

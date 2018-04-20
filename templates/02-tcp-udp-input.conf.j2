@@ -1,0 +1,11 @@
+input {
+  tcp {
+    port => {{ logstash_listen_port_tcp }}
+    tags => [ "f5-logs" ]
+    ssl_enable => true
+    ssl_extra_chain_certs => ["/etc/logstash/certs/reform.hmcts.net.ca"]
+    ssl_cert => "/etc/logstash/certs/reform.hmcts.net.crt"
+    ssl_key => "/etc/logstash/certs/reform.hmcts.net.key"
+    ssl_verify => false
+  }
+}

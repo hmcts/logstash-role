@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: HMCTS Reform
+  description: LDAP Authenticating Apache Proxy
+  company: HMCTS Reform
+  license: MIT
+
+  min_ansible_version: 2.4
+
+  galaxy_tags: []
+
+dependencies:
+  - devops.repos
+  - devops.java

@@ -1,0 +1,11 @@
+output {
+  elasticsearch {
+    hosts => {{ logstash_elasticsearch_hosts | to_json }}
+    ssl => true
+    ssl_certificate_verification => false
+    cacert => "/etc/logstash/{{ elk_sg_ca_cert_location }}"
+    index => "%{team}-%{+YYYY.MM.dd}"
+    user => "{{ logstash_local_user }}"
+    password =>  "{{ logstash_local_user_password }}"
+  }
+}

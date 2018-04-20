@@ -1,0 +1,35 @@
+---
+# Replace with the version used for your infrastructure.  This is the latest version as of writing
+logstash_pkg_version: 6.2.3
+
+# Replace with the Logstash listen ports for your infrastructure
+logstash_listen_port_beats: 0
+logstash_listen_port_tcp: 0
+
+logstash_data: "/var/lib/logstash"
+logstash_config: "/etc/logstash/conf.d"
+logstash_logs: "/var/log/logstash"
+
+logstash_elasticsearch_hosts:
+  - https://localhost:9200
+
+logstash_local_syslog_path: /var/log/syslog
+logstash_monitor_local_syslog: true
+logstash_enabled_on_boot: yes
+
+logstash_install_plugins:
+  - logstash-input-beats
+  - logstash-output-applicationinsights
+
+logstash_local_user: "local_user"
+logstash_local_user_password: notthepassyoulookingfor
+logstash_ssl_key_location: "/etc/logstash/certs/reform.hmcts.net.key"
+logstash_ssl_crt_location: "/etc/logstash/certs/reform.hmcts.net.crt"
+logstash_ssl_ca_location: "/etc/logstash/certs/reform.hmcts.net.ca"
+logstash_ssl_key: ""
+logstash_ssl_crt: ""
+logstash_ssl_ca: ""
+
+# SearchGuard related certs
+elk_sg_ca_cert: ""
+elk_sg_ca_cert_location: "certs/ca.pem"
