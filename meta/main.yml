@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: HMCTS Reform
-  description: LDAP Authenticating Apache Proxy
+  description: Install and configure Logstash
   company: HMCTS Reform
   license: MIT
 
