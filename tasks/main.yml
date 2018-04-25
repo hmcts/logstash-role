@@ -1,9 +1,13 @@
 ---
-- include_tasks: setup-RedHat.yml
+- name: Install Logstash and dependencies
+  include_tasks: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'
 
-- include_tasks: config.yml
-- include_tasks: plugins.yml
+- name: Configure Logstash
+  include_tasks: config.yml
+
+- name: Install Logstash plugins
+  include_tasks: plugins.yml
 
 - name: Ensure Logstash is started and enabled on boot.
   become: yes
